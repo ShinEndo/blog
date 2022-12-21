@@ -1,6 +1,7 @@
 import Container from "components/Container";
 import ConvertBody from "components/ConvertBody";
 import PostBody from "components/PostBody";
+import PostCategories from "components/PostCategories";
 import PostHeader from "components/PostHeader";
 import {
   TwoColumn,
@@ -8,11 +9,17 @@ import {
   TwoColumnSidebar,
 } from "components/TwoColumn";
 import { getPostBySlug } from "lib/api";
+import extractText from "lib/extractText";
+import Meta from "components/meta";
 import Image from "next/image";
 
-const Schedule = ({ title, publish, content, eyecatch, categories }) => {
+// ローカルの代替アイキャッチ画像
+import {eyecatchLocal} from 'lib/constants'
+
+const Schedule = ({ title, publish, content, eyecatch, categories,description }) => {
   return (
     <Container>
+      <Meta pageTitle={title} pageDesc={description} pageImg={eyecatch.url} pageImgW={eyecatch.width} pageImgH={eyecatch.height} /> 
       <article>
         <PostHeader title={title} subtitle="Blog Article" publish={publish} />
 
@@ -33,7 +40,9 @@ const Schedule = ({ title, publish, content, eyecatch, categories }) => {
               <ConvertBody contentHTML={content} />
             </PostBody>
           </TwoColumnMain>
-          <TwoColumnSidebar></TwoColumnSidebar>
+          <TwoColumnSidebar>
+            <PostCategories categories={categories} />
+          </TwoColumnSidebar>
         </TwoColumn>
       </article>
     </Container>
@@ -42,15 +51,18 @@ const Schedule = ({ title, publish, content, eyecatch, categories }) => {
 export default Schedule;
 
 export async function getStaticProps() {
-  const slug = "schedule";
+  const slug = "micro";
   const post = await getPostBySlug(slug);
+  const description = extractText(post.content);
+  const eyecatch = post.eyecatch ?? eyecatchLocal;
   return {
     props: {
       title: post.title,
       publish: post.publishDate,
       content: post.content,
-      eyecatch: post.eyecatch,
+      eyecatch: eyecatch,
       categories: post.categories,
+      description: description,
     },
   };
 }
