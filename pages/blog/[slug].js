@@ -15,6 +15,7 @@ import Image from "next/image";
 
 // ローカルの代替アイキャッチ画像
 import {eyecatchLocal} from 'lib/constants'
+import { getPlaiceholder } from "plaiceholder";
 
 const Schedule = ({ title, publish, content, eyecatch, categories,description }) => {
   return (
@@ -32,6 +33,8 @@ const Schedule = ({ title, publish, content, eyecatch, categories,description })
             height={eyecatch.height}
             sizes="(min-width: 1152px) 1152px, 100vw"
             priority
+            placeholder="blur"
+            blurDataURL={eyecatch.blurDataURL}
           />
         </figure>
         <TwoColumn>
@@ -50,11 +53,20 @@ const Schedule = ({ title, publish, content, eyecatch, categories,description })
 };
 export default Schedule;
 
-export async function getStaticProps() {
-  const slug = "micro";
+export async function getStaticPaths() {
+  return {
+    paths: ['/blog/schedule', '/blog/music', '/blog/micro'],
+    fallback: false,
+  }
+}
+
+export async function getStaticProps(context) {
+  const slug = context.params.slug;
   const post = await getPostBySlug(slug);
   const description = extractText(post.content);
   const eyecatch = post.eyecatch ?? eyecatchLocal;
+  const {base64} = await getPlaiceholder(eyecatch.url);
+  eyecatch.blurDataURL = base64;
   return {
     props: {
       title: post.title,
