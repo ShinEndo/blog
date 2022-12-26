@@ -14,20 +14,36 @@ import Meta from "components/meta";
 import Image from "next/image";
 
 // ローカルの代替アイキャッチ画像
-import {eyecatchLocal} from 'lib/constants'
+import { eyecatchLocal } from "lib/constants";
 import { getPlaiceholder } from "plaiceholder";
 import prevNextPost from "lib/prevNextPost";
 import Pagination from "components/Pagination";
 
-const Schedule = ({ title, publish, content, eyecatch, categories,description,prevPost,nextPost }) => {
+const Schedule = ({
+  title,
+  publish,
+  content,
+  eyecatch,
+  categories,
+  description,
+  prevPost,
+  nextPost,
+}) => {
   return (
     <Container>
-      <Meta pageTitle={title} pageDesc={description} pageImg={eyecatch.url} pageImgW={eyecatch.width} pageImgH={eyecatch.height} /> 
+      <Meta
+        pageTitle={title}
+        pageDesc={description}
+        pageImg={eyecatch.url}
+        pageImgW={eyecatch.width}
+        pageImgH={eyecatch.height}
+      />
       <article>
         <PostHeader title={title} subtitle="Blog Article" publish={publish} />
 
         <figure>
           <Image
+            key={eyecatch.url}
             src={eyecatch.url}
             alt=""
             layout="responsive"
@@ -64,9 +80,9 @@ export default Schedule;
 export async function getStaticPaths() {
   const allslugs = await getAllslugs();
   return {
-    paths: allslugs.map(({slug})=>`/blog/${slug}`),
+    paths: allslugs.map(({ slug }) => `/blog/${slug}`),
     fallback: false,
-  }
+  };
 }
 
 export async function getStaticProps(context) {
@@ -74,10 +90,10 @@ export async function getStaticProps(context) {
   const post = await getPostBySlug(slug);
   const description = extractText(post.content);
   const eyecatch = post.eyecatch ?? eyecatchLocal;
-  const {base64} = await getPlaiceholder(eyecatch.url);
+  const { base64 } = await getPlaiceholder(eyecatch.url);
   eyecatch.blurDataURL = base64;
   const allSlugs = await getAllslugs();
-  const [prevPost,nextPost] = prevNextPost(allSlugs,slug);
+  const [prevPost, nextPost] = prevNextPost(allSlugs, slug);
   return {
     props: {
       title: post.title,

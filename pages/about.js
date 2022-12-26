@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import eyecatch from "images/about.jpg";
 import Meta from "components/Meta";
+import Accordion from "components/Accordion";
 
 const About = () => {
   return (
@@ -57,14 +58,31 @@ const About = () => {
               molestiae hic amet totam qui rerum aliquam eius, similique enim
               itaque nulla, nam dolores dolor officia dolorem impedit odio.
             </p>
-            <h3>Lorem ipsum, dolor sit amet consectetur </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque fugiat fugit deleniti reprehenderit sapiente eum,
-              repudiandae perspiciatis pariatur quisquam totam corrupti
-              accusamus voluptatem itaque sequi? Minima quam hic veritatis
-              impedit?
-            </p>
+            <h2>FAQ</h2>
+            <Accordion heading="プログラミングのポイントについて">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+                provident sequi quaerat maxime fugiat. Autem corrupti error
+                voluptatibus culpa perferendis fugiat omnis obcaecati, dolor
+                doloremque, quae ipsam asperiores tempora nemo.
+              </p>
+            </Accordion>
+            <Accordion heading="古代語の解読について">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus
+                vitae eligendi unde. Recusandae, quo asperiores quis possimus
+                aspernatur eveniet quos neque. Alias nostrum nihil repudiandae
+                quidem reprehenderit accusantium? Unde, architecto!
+              </p>
+            </Accordion>
+            <Accordion heading="公開リポジトリの活用について">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
+                veritatis fugiat dignissimos, nobis itaque mollitia illum! Nobis
+                nam voluptates odio pariatur sunt in voluptatibus, assumenda
+                nulla ex dolores accusantium animi.
+              </p>
+            </Accordion>
           </PostBody>
         </TwoColumnMain>
         <TwoColumnSidebar>
